@@ -115,3 +115,4 @@ spec:
           items:
             - key: install_plugins.sh
               path: install_plugins.sh
+      - name: graylog

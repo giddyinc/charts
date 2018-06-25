@@ -33,6 +33,9 @@ spec:
             "
           ]
           volumeMounts:
+            - mountPath: /usr/share/graylog/plugin
+              name: graylog
+              subPath: plugin
             - name: install-plugins
               mountPath: /tmp/scripts/
           resources:
@@ -101,6 +104,10 @@ spec:
             secretKeyRef:
               name: {{ template "graylog.fullname" . }}
               key: root_password
+        volumeMounts:
+          - mountPath: /usr/share/graylog/plugin
+            name: graylog
+            subPath: plugin
       volumes:
       - name: install-plugins
         configMap:

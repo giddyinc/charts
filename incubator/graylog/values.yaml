@@ -83,6 +83,12 @@ nodes:
     annotations:
       # external-dns.alpha.kubernetes.io/hostname: graylog-inputs.example.com
 
+plugins:
+  install: []
+  resources: {}
+  # We allow the plugins init container to have a separate resources declaration because
+  # the initContainer does not take as much resources.
+
 elasticsearch:
   # Host Name for elasticsearch
   hosts: elasticsearch

@@ -20,6 +20,23 @@ spec:
         app: {{ template "graylog.name" . }}-node
         role: graylog-node
     spec:
+    {{- if .Values.plugins.install }}
+      initContainers:
+        - name: install-plugins
+          image: joosthofman/wget:1.0
+          command: ["sh",
+            "-c",
+            "mkdir -p /usr/share/graylog/plugin &&
+            chmod 0775 /tmp/scripts/install_plugins.sh &&
+            /tmp/scripts/install_plugins.sh
+            "
+          ]
+          volumeMounts:
+            - name: install-plugins
+              mountPath: /tmp/scripts/
+          resources:
+{{ toYaml .Values.plugins.resources | indent 12 }}
+    {{- end }}
       containers:
       - name: graylog
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -83,3 +100,10 @@ spec:
             secretKeyRef:
               name: {{ template "graylog.fullname" . }}
               key: root_password
+      volumes:
+      - name: install-plugins
+        configMap:
+          name: {{ template "graylog.fullname" . }}-install-plugins
+          items:
+            - key: install_plugins.sh
+              path: install_plugins.sh

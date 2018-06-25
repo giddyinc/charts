@@ -25,7 +25,6 @@ spec:
         app: {{ template "graylog.name" . }}
         role: graylog-master
     spec:
-    {{- if .Values.plugins.install }}
       initContainers:
         - name: install-plugins
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -45,7 +44,6 @@ spec:
               mountPath: /tmp/scripts/
           resources:
 {{ toYaml .Values.plugins.resources | indent 12 }}
-    {{- end }}
       containers:
       - name: graylog
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

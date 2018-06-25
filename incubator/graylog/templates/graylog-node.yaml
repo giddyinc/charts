@@ -23,7 +23,7 @@ spec:
     {{- if .Values.plugins.install }}
       initContainers:
         - name: install-plugins
-          image: joosthofman/wget:1.0
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command: ["sh",
             "-c",
             "mkdir -p /usr/share/graylog/plugin &&
@@ -34,7 +34,7 @@ spec:
           ]
           volumeMounts:
             - mountPath: /usr/share/graylog/plugin
-              name: graylog
+              name: graylog-plugins
               subPath: plugin
             - name: install-plugins
               mountPath: /tmp/scripts/
@@ -106,7 +106,7 @@ spec:
               key: root_password
         volumeMounts:
           - mountPath: /usr/share/graylog/plugin
-            name: graylog
+            name: graylog-plugins
             subPath: plugin
       volumes:
       - name: install-plugins
@@ -115,4 +115,4 @@ spec:
           items:
             - key: install_plugins.sh
               path: install_plugins.sh
-      - name: graylog
+      - name: graylog-plugins

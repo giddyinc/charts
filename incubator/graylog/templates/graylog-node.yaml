@@ -29,10 +29,11 @@ spec:
             "cp /tmp/scripts/install_plugins.sh /usr/share/graylog/plugin/install_plugins.sh &&
             chmod 0775 /usr/share/graylog/plugin/install_plugins.sh &&
             /usr/share/graylog/plugin/install_plugins.sh
+            cp -r /usr/share/graylog/plugin /usr/share/graylog/plugin_install
             "
           ]
           volumeMounts:
-            - mountPath: /usr/share/graylog/plugin
+            - mountPath: /usr/share/graylog/plugin_install
               name: graylog-plugins
               subPath: plugin
             - name: install-plugins
